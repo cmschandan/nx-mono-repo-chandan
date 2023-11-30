@@ -1,0 +1,33 @@
+{
+  "name": "chandan-workspace-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/chandan-workspace-e2e/src",
+  "targets": {
+    "e2e": {
+      "executor": "@nx/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/chandan-workspace-e2e/cypress.config.ts",
+        "testingType": "e2e",
+        "devServerTarget": "chandan-workspace:serve:development"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "chandan-workspace:serve:production"
+        },
+        "ci": {
+          "devServerTarget": "chandan-workspace:serve-static"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/chandan-workspace-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["chandan-workspace"]
+}

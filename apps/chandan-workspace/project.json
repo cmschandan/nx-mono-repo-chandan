@@ -1,0 +1,149 @@
+{
+  "name": "chandan-workspace",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "chandan-org",
+  "sourceRoot": "apps/chandan-workspace/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:browser",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/chandan-workspace/browser",
+        "index": "apps/chandan-workspace/src/index.html",
+        "main": "apps/chandan-workspace/src/main.ts",
+        "polyfills": ["zone.js"],
+        "tsConfig": "apps/chandan-workspace/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": [
+          "apps/chandan-workspace/src/favicon.ico",
+          "apps/chandan-workspace/src/assets"
+        ],
+        "styles": ["apps/chandan-workspace/src/styles.scss"],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "buildTarget": "chandan-workspace:build:production"
+        },
+        "development": {
+          "buildTarget": "chandan-workspace:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "buildTarget": "chandan-workspace:build"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "apps/chandan-workspace/**/*.ts",
+          "apps/chandan-workspace/**/*.html"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/chandan-workspace/jest.config.ts"
+      }
+    },
+    "serve-static": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "chandan-workspace:build"
+      }
+    },
+    "server": {
+      "dependsOn": ["build"],
+      "executor": "@angular-devkit/build-angular:server",
+      "options": {
+        "outputPath": "dist/apps/chandan-workspace/server",
+        "main": "apps/chandan-workspace/server.ts",
+        "tsConfig": "apps/chandan-workspace/tsconfig.server.json",
+        "inlineStyleLanguage": "scss"
+      },
+      "configurations": {
+        "production": {
+          "outputHashing": "media"
+        },
+        "development": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "sourceMap": true,
+          "extractLicenses": false,
+          "vendorChunk": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve-ssr": {
+      "executor": "@angular-devkit/build-angular:ssr-dev-server",
+      "configurations": {
+        "development": {
+          "browserTarget": "chandan-workspace:build:development",
+          "serverTarget": "chandan-workspace:server:development"
+        },
+        "production": {
+          "browserTarget": "chandan-workspace:build:production",
+          "serverTarget": "chandan-workspace:server:production"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "prerender": {
+      "executor": "@angular-devkit/build-angular:prerender",
+      "options": {
+        "routes": ["/"]
+      },
+      "configurations": {
+        "development": {
+          "browserTarget": "chandan-workspace:build:development",
+          "serverTarget": "chandan-workspace:server:development"
+        },
+        "production": {
+          "browserTarget": "chandan-workspace:build:production",
+          "serverTarget": "chandan-workspace:server:production"
+        }
+      },
+      "defaultConfiguration": "production"
+    }
+  }
+}
